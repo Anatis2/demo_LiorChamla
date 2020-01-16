@@ -28,7 +28,7 @@ class BlogController extends AbstractController
     	$articles = $repo->findAll();
 
         return $this->render('blog/index.html.twig', [
-            'controller_name' => 'BlogController',
+            'title' => 'Blog',
 			'articles' => $articles
         ]);
     }
@@ -39,7 +39,9 @@ class BlogController extends AbstractController
 	 */
     public function home()
 	{
-		return $this->render('blog/home.html.twig');
+		return $this->render('blog/home.html.twig', [
+			'title' => 'Accueil'
+		]);
 	}
 
 
@@ -65,10 +67,14 @@ class BlogController extends AbstractController
 	 		$manager->persist($article);
 	 		$manager->flush();
 
-	 		return $this->redirectToRoute('blog_show', ['id' => $article->getId()]);
+	 		return $this->redirectToRoute('blog_show', [
+				'title' => 'Article',
+	 			'id' => $article->getId()
+			]);
 	 	}
 
 		return $this->render('blog/create.html.twig', [
+			'title' => 'Création d\'un article',
 			'formArticle' => $form->createView(),
 			'editMode' => $article->getId() !== null
 		]);
@@ -81,6 +87,7 @@ class BlogController extends AbstractController
 	public function show(Article $article)
 	{
 		return $this->render('blog/show.html.twig', [
+			'title' => 'Article',
 			'article' => $article
 		]);
 	}
